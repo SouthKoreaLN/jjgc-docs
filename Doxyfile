@@ -5,7 +5,7 @@ GENERATE_XML           = YES
 XML_OUTPUT             = xml
 GENERATE_HTML          = NO
 RECURSIVE              = YES
-INPUT                  = lanczosKuboCode_jinwoo/Src
+INPUT                  = lanczosKuboCode_jinwoo/Src/ham.F90
 FILE_PATTERNS          = *.f90 *.F90
 EXTENSION_MAPPING      = F90=Fortran f90=Fortran
 OPTIMIZE_OUTPUT_FOR_C  = NO
