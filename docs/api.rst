@@ -1,8 +1,9 @@
 API Reference
 =============
 
-ham.F90
--------
+ham module
+----------
 
-.. doxygenfile:: ham.F90
+.. fortran:autodoc:: ham
    :project: jjgc
+   :members:
