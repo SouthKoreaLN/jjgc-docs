@@ -17,3 +17,4 @@ html_theme = 'sphinx_rtd_theme'
 fortran_src = [
     ('jjgc', [os.path.abspath('../lanczosKuboCode_jinwoo/Src')]),
 ]
+fortran_ext = ['f90', 'F90']
