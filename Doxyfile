@@ -1,0 +1,17 @@
+PROJECT_NAME           = "JeilJungGroupCodes"
+PROJECT_NUMBER         = 1.0
+OUTPUT_DIRECTORY       = docs/_build/doxygen
+GENERATE_XML           = YES
+XML_OUTPUT             = xml
+GENERATE_HTML          = NO
+RECURSIVE              = YES
+INPUT                  = lanczosKuboCode_jinwoo/Src
+FILE_PATTERNS          = *.f90 *.F90
+EXTENSION_MAPPING      = F90=Fortran f90=Fortran
+OPTIMIZE_OUTPUT_FOR_C  = NO
+OPTIMIZE_FOR_FORTRAN   = YES
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+QUIET                  = YES
+WARN_IF_UNDOCUMENTED   = NO
+

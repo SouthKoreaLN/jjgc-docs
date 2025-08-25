@@ -1,0 +1,33 @@
+module sparse_matrix_module
+  implicit none
+  type :: CSRMatrix
+     integer, allocatable :: row_ptr(:)
+     integer, allocatable :: col_ind(:)
+     complex(16), allocatable :: values(:)
+  end type CSRMatrix
+contains
+  subroutine initialize_CSR(matrix, n, nnz)
+    type(CSRMatrix), intent(inout) :: matrix
+    integer, intent(in) :: n, nnz
+
+    allocate(matrix%row_ptr(n+1))
+    allocate(matrix%col_ind(nnz))
+    allocate(matrix%values(nnz))
+  end subroutine initialize_CSR
+
+  subroutine matvec_CSR(matrix, x, y)
+    type(CSRMatrix), intent(in) :: matrix
+    complex(16), intent(in) :: x(:)
+    complex(16), intent(out) :: y(:)
+    integer :: i, j, start, end
+
+    y = 0.0_16
+    do i = 1, size(matrix%row_ptr) - 1
+       start = matrix%row_ptr(i)
+       end = matrix%row_ptr(i + 1) - 1
+       do j = start, end
+          y(i) = y(i) + matrix%values(j) * x(matrix%col_ind(j))
+       end do
+    end do
+  end subroutine matvec_CSR
+end module sparse_matrix_module
