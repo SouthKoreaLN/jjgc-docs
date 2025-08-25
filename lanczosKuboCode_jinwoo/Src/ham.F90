@@ -2787,8 +2787,12 @@ end if
 
 end subroutine HamOnSite
 
+!> @brief Rescale a random value to be inside a given range.
+!! @param[in]  rand   Input random value in [0,1]
+!! @param[out] rand2  Rescaled random value in [low,high]
+!! @param[in]  low    Lower bound of output range
+!! @param[in]  high   Upper bound of output range
 subroutine randomInRange(rand,rand2, low,high)
-! Rescale a random value to be inside a given range
 
     !real(dp), intent(in) :: low, high, rand
     !real(dp), intent(out) :: rand2
@@ -2799,8 +2803,11 @@ subroutine randomInRange(rand,rand2, low,high)
 
 end subroutine randomInRange
 
+!> @brief Fit function for distance-dependent coupling parameters.
+!! @param[in]  p1,p2,p3  Fitting coefficients
+!! @param[in]  dist       Interlayer distance
+!! @param[out] Cjj        Fitted coupling parameter
 subroutine fitFunSrivani(p1, p2, p3, dist, Cjj)
-! Obtain the interlayer distance dependent parametrization of the intralayer moire terms in tBG
 
     real(dp) :: p1 ! parabolic function coefficient
     real(dp) :: p2 ! parabolic function coefficient
@@ -2813,8 +2820,13 @@ subroutine fitFunSrivani(p1, p2, p3, dist, Cjj)
 end subroutine fitFunSrivani
 
 
+!> @brief Compute distance-dependent coupling using exponential decay.
+!! @param[out] Cd      Distance-dependent coupling
+!! @param[in]  C0      Base coupling at reference distance
+!! @param[in]  Bfactor Exponential decay factor
+!! @param[in]  z       Current interlayer distance
+!! @param[in]  z0      Reference interlayer distance
 subroutine distanceDependentC(Cd, C0, Bfactor, z, z0)
-! Obtain a distance dependent reparametrization of the C0 coefficient following the Nat. Comm. expressions.
 
     real(dp), intent(in) :: C0, z, z0, Bfactor
     real(dp), intent(out) :: Cd
@@ -2828,8 +2840,12 @@ subroutine distanceDependentC(Cd, C0, Bfactor, z, z0)
     return
 end subroutine distanceDependentC
 
+!> @brief Compute H0 onsite term using AABB sublattice basis.
+!! @param[out] H0             Onsite energy contribution
+!! @param[in]  dx,dy          In-plane displacements
+!! @param[in]  z              Interlayer distance
+!! @param[in]  moirePreFactor Moiré pattern prefactor
 subroutine diagoH0FromAABB(H0,dx,dy, z, moirePreFactor)
-! Obtain H0 from the HAA and HBB quantities. Useful when one needs a different representation.
 
     use constants
     use cell,                 only : aG
@@ -2874,8 +2890,12 @@ subroutine diagoH0FromAABB(H0,dx,dy, z, moirePreFactor)
     return
 end subroutine diagoH0FromAABB
 
+!> @brief Compute Hz onsite term using AABB sublattice basis.
+!! @param[out] Hz             Hz energy contribution
+!! @param[in]  dx,dy          In-plane displacements
+!! @param[in]  z              Interlayer distance
+!! @param[in]  moirePreFactor Moiré pattern prefactor
 subroutine diagoHzFromAABB(Hz,dx,dy,z,moirePreFactor)
-! Obtain Hz from the HAA and HBB quantities. Useful when one needs a different representation.
 
     use constants
     use cell,                 only : aG
@@ -2914,8 +2934,12 @@ subroutine diagoHzFromAABB(Hz,dx,dy,z,moirePreFactor)
 end subroutine diagoHzFromAABB
 
 
+!> @brief Compute diagonal onsite energy using cosine modulation.
+!! @param[out] Hdjj   Diagonal onsite energy
+!! @param[in]  dx,dy  In-plane displacements
+!! @param[in]  Cjj    Coupling amplitude
+!! @param[in]  Phijj  Phase factor
 subroutine diago(Hdjj,dx,dy,Cjj,Phijj)
-! Obtain the diagonal terms for the GBN effective model. This works for H0 and Hz.
 
     use constants
     use cell,                 only : aG
@@ -2932,8 +2956,13 @@ subroutine diago(Hdjj,dx,dy,Cjj,Phijj)
     return
 end subroutine diago 
 
+!> @brief Compute diagonal onsite energy for GBN systems.
+!! @param[out] Hdjj   Diagonal onsite energy
+!! @param[in]  dx,dy  In-plane displacements
+!! @param[in]  Cjj    Coupling amplitude
+!! @param[in]  Phijj  Phase factor
+!! @param[in]  Cjj0   Constant offset
 subroutine diagoGBN(Hdjj,dx,dy,Cjj,Phijj,Cjj0)
-! Obtain the diagonal terms for the bilayer GBN model.
 
     use constants
     use cell,                 only : aG
@@ -2951,8 +2980,12 @@ subroutine diagoGBN(Hdjj,dx,dy,Cjj,Phijj,Cjj0)
     return
 end subroutine diagoGBN 
 
+!> @brief Compute diagonal onsite energy with conjugate phase.
+!! @param[out] Hdjj   Diagonal onsite energy
+!! @param[in]  dx,dy  In-plane displacements
+!! @param[in]  Cjj    Coupling amplitude
+!! @param[in]  Phijj  Phase factor (conjugated)
 subroutine diagoConj(Hdjj,dx,dy,Cjj,Phijj)
-! Obtain the complex conjugate expression for the diagonal terms of the GBN effective model. Obsolete.
 
     use constants
     use cell,                 only : aG
@@ -2969,9 +3002,13 @@ subroutine diagoConj(Hdjj,dx,dy,Cjj,Phijj)
     return
 end subroutine diagoConj 
 
+!> @brief Compute diagonal onsite energy with constant offset.
+!! @param[out] Hdjj   Diagonal onsite energy
+!! @param[in]  dx,dy  In-plane displacements
+!! @param[in]  Cjj    Coupling amplitude
+!! @param[in]  Phijj  Phase factor
+!! @param[in]  Cjj0   Constant offset
 subroutine diago2(Hdjj,dx,dy,Cjj,Phijj,Cjj0)
-! Same as the diago routine, but allows to include a Cjj0 term (equal to the average of the three high symmetry stacking configurations that are
-! used for the Harmonic approximation).
 
     use constants
     use cell,                 only : aG
@@ -2990,9 +3027,12 @@ end subroutine diago2
 
 
 
+!> @brief Compute off-diagonal hopping using cosine modulation.
+!! @param[out] Hodjj  Off-diagonal hopping element
+!! @param[in]  dx,dy  In-plane displacements
+!! @param[in]  Cjj    Coupling amplitude
+!! @param[in]  Phijj  Phase factor
 subroutine offdiago(Hodjj,dx,dy,Cjj,Phijj)
-! Obtain the offdiagonal terms for the GBN effective model. This yields the HAB term that can be used to obtain the virtual strain
-! correction to the first nearest neighbor hopping terms.
 
    use constants
    use cell,                 only : aG
@@ -3011,6 +3051,11 @@ subroutine offdiago(Hodjj,dx,dy,Cjj,Phijj)
    return
 end subroutine offdiago
 
+!> @brief Compute off-diagonal hopping with constant offset.
+!! @param[out] Hodjj  Off-diagonal hopping element
+!! @param[in]  dx,dy  In-plane displacements
+!! @param[in]  Cjj    Coupling amplitude
+!! @param[in]  Phijj  Phase factor
 subroutine offdiago2(Hodjj,dx,dy,Cjj,Phijj)
    use constants
    use cell,                 only : aG
@@ -3029,6 +3074,11 @@ subroutine offdiago2(Hodjj,dx,dy,Cjj,Phijj)
    return
 end subroutine offdiago2
 
+!> @brief Compute off-diagonal hopping for GBN systems.
+!! @param[out] Hodjj  Off-diagonal hopping element
+!! @param[in]  dx,dy  In-plane displacements
+!! @param[in]  Cjj    Coupling amplitude
+!! @param[in]  Phijj  Phase factor
 subroutine offdiagoGBN(Hodjj,dx,dy,Cjj,Phijj)
    use constants
    use cell,                 only : aG
@@ -3048,6 +3098,11 @@ subroutine offdiagoGBN(Hodjj,dx,dy,Cjj,Phijj)
    return
 end subroutine offdiagoGBN
 
+!> @brief Compute off-diagonal hopping for twisted bilayer graphene.
+!! @param[out] Hodjj  Off-diagonal hopping element
+!! @param[in]  dx,dy  In-plane displacements
+!! @param[in]  Cjj    Coupling amplitude
+!! @param[in]  Phijj  Phase factor
 subroutine offdiagotBG(Hodjj,dx,dy,Cjj,Phijj)
    use constants
    use cell,                 only : aG
@@ -3067,6 +3122,12 @@ subroutine offdiagotBG(Hodjj,dx,dy,Cjj,Phijj)
    return
 end subroutine offdiagotBG
 
+!> @brief Compute diagonal onsite energy for twisted bilayer graphene.
+!! @param[out] Hodjj  Diagonal onsite energy
+!! @param[in]  dx,dy  In-plane displacements
+!! @param[in]  Cjj    Coupling amplitude
+!! @param[in]  Phijj  Phase factor
+!! @param[in]  Cjj0   Constant offset
 subroutine diagotBG(Hodjj,dx,dy,Cjj,Phijj,Cjj0)
    use constants
    use cell,                 only : aG
@@ -3082,6 +3143,10 @@ subroutine diagotBG(Hodjj,dx,dy,Cjj,Phijj,Cjj0)
    return
 end subroutine diagotBG
 
+!> @brief Harmonic approximation for in-plane onsite variation.
+!! @param[in]  dx,dy  Local displacements
+!! @param[in]  A,B,C  Harmonic parameters
+!! @param[out] Hjj    Onsite energy contribution
 subroutine harmonicApprox(dx,dy,A,B,C, Hjj)
     use constants
 
@@ -3143,6 +3208,11 @@ subroutine harmonicApprox(dx,dy,A,B,C, Hjj)
 
 end subroutine
 
+!> @brief Compute interlayer BL coupling phase factor HBL.
+!! @param[out] HBL   Complex coupling value
+!! @param[in]  dx    Relative x displacement
+!! @param[in]  dy    Relative y displacement
+!! @param[in]  tAB   Base interlayer hopping amplitude
 subroutine interlayerBL(HBL,dx,dy,tAB)
    use constants
    use cell,                 only : aG
@@ -3157,6 +3227,11 @@ subroutine interlayerBL(HBL,dx,dy,tAB)
    return
 end subroutine interlayerBL
 
+!> @brief Interlayer coupling for AB stacking between layers.
+!! @param[out] HAB      Complex AB coupling
+!! @param[in]  dx,dy    Relative in-plane displacement
+!! @param[in]  tbt      Base coupling amplitude
+!! @param[in]  posOrNeg Sign selector (+1/-1) for valley/rotation
 subroutine interlayerBLAB(HAB,dx,dy,tbt,posOrNeg)
    use constants
    use cell,                 only : aG
@@ -3178,6 +3253,11 @@ subroutine interlayerBLAB(HAB,dx,dy,tbt,posOrNeg)
    return
 end subroutine interlayerBLAB
 
+!> @brief Interlayer coupling for BA stacking between layers.
+!! @param[out] HBA      Complex BA coupling
+!! @param[in]  dx,dy    Relative in-plane displacement
+!! @param[in]  tbt      Base coupling amplitude
+!! @param[in]  posOrNeg Sign selector (+1/-1) for valley/rotation
 subroutine interlayerBLBA(HBA,dx,dy,tbt,posOrNeg)
 
    use constants
@@ -3200,6 +3280,11 @@ subroutine interlayerBLBA(HBA,dx,dy,tbt,posOrNeg)
    return
 end subroutine interlayerBLBA
 
+!> @brief Interlayer coupling for AA stacking between layers.
+!! @param[out] HAA      Complex AA coupling
+!! @param[in]  dx,dy    Relative in-plane displacement
+!! @param[in]  tbt      Base coupling amplitude
+!! @param[in]  posOrNeg Sign selector (+1/-1) for valley/rotation
 subroutine interlayerBLAA(HAA,dx,dy,tbt,posOrNeg)
 
    use constants
@@ -11444,6 +11529,10 @@ subroutine HamHopping
 
 end subroutine HamHopping
 
+!> @brief Forward discrete cosine transform of a real vector.
+!! @param[in]  n  Vector length
+!! @param[in]  d  Input data array
+!! @param[out] c  Output cosine coefficients
 subroutine cosine_transform_data ( n, d, c )
 
 !*****************************************************************************80
@@ -11493,6 +11582,10 @@ subroutine cosine_transform_data ( n, d, c )
 
   return
 end
+!> @brief Inverse discrete cosine transform to recover data.
+!! @param[in]  n  Vector length
+!! @param[in]  c  Cosine coefficients
+!! @param[out] d  Reconstructed data array
 subroutine cosine_transform_inverse ( n, c, d )
 
 !*****************************************************************************80
