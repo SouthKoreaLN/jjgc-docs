@@ -2,3 +2,4 @@ Sphinx==7.3.7
 breathe==4.35.0
 sphinx-rtd-theme==2.0.0
 sphinx-fortran==1.1.1
+six==1.16.0
